@@ -1,6 +1,11 @@
 import discord
 import lib_trucy_bot as ltb
+import sqlite3
 
+# Database
+connection = sqlite3.connect('trucy_bot.db')
+
+# Token
 token_file = open('discord_client_token.txt')
 token = token_file.read()
 
