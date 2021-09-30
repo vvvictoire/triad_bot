@@ -1,6 +1,10 @@
 import discord
+from discord.ext import commands
 import lib_trucy_bot as ltb
 import sqlite3
+
+# Instanciate the bot
+bot = commands.Bot(command_prefix='!')
 
 # Database
 connection = sqlite3.connect('trucy_bot.db')
@@ -9,33 +13,32 @@ connection = sqlite3.connect('trucy_bot.db')
 token_file = open('discord_client_token.txt')
 token = token_file.read()
 
-client = discord.Client()
-
-@client.event
+@bot.event
 async def on_ready():
-    print('Logged in as {0.user}'.format(client))
+    print(f'Logged in as {bot.user}')
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
+@bot.command()
+async def usd(context, amount):
+    amount = float(amount)
+    dollars = ltb.eur_to_usd(amount)
+    await context.send(f'n{amount} € in USD is ${dollars}')
 
-    if message.content.startswith('Hello there'):
-        await message.channel.send('General Kenobi!')
+@bot.command()
+async def eur(context, amount):
+    amount = float(amount)
+    euros = ltb.usd_to_eur(amount)
+    await context.send(f'n${amount} in EUR is {euros}')
 
-    if message.content.startswith('!usd'):
-        amount = float(message.content.split()[1])
-        await message.channel.send('{0} € in USD is ${1}'.format(amount, ltb.eur_to_usd(amount)))
+@bot.command()
+async def c(context, temperature):
+    temperature = float(temperature)
+    celsius = ltb.far_to_cel(temperature)
+    await context.send(f'{temperature}°F = {celsius}°C')
 
-    if message.content.startswith('!eur'):
-        amount = float(message.content.split()[1])
-        await message.channel.send('${0} in EUR is {1} €'.format(amount, ltb.usd_to_eur(amount)))
+@bot.command()
+async def f(context, temperature):
+    temperature = float(temperature)
+    farenheit = ltb.cel_to_far(temperature)
+    await context.send(f'{temperature}°C = {farenheit}°F')
 
-    if message.content.startswith('!c'):
-        amount = float(message.content.split()[1])
-        await message.channel.send('{0}°F = {1}°C'.format(amount, ltb.far_to_cel(amount)))
-
-    if message.content.startswith('!f'):
-        amount = float(message.content.split()[1])
-        await message.channel.send('{0}°C = {1}°F'.format(amount, ltb.cel_to_far(amount)))
-client.run(token)
+bot.run(token)
