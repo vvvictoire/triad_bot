@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 discord_client_token.txt
 trucy_bot.db
+nsfw_channel_ids

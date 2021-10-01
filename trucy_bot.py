@@ -1,18 +1,19 @@
 import discord
 from discord.ext import commands
 import lib_trucy_bot as ltb
-import sqlite3
 import datetime
 
 # Instanciate the bot
 bot = commands.Bot(command_prefix='!')
 
-# Database
-connection = sqlite3.connect('trucy_bot.db')
-
 # Token
 token_file = open('discord_client_token.txt')
 token = token_file.read()
+
+# NSFW channel IDs
+nsfw_channel_ids_file = open('nsfw_channel_ids')
+nsfw_channel_ids = nsfw_channel_ids_file.read().split()
+nsfw_channel_ids = [int(id) for id in nsfw_channel_ids]
 
 @bot.event
 async def on_ready():
@@ -53,5 +54,11 @@ async def frtime(context):
     fr_timezone = ltb.paris_time()
     timestring = datetime.datetime.now(fr_timezone).strftime("%H:%M")
     await context.send(f'Paris time is {timestring}')
+
+@bot.command()
+async def ass(context):
+    if context.channel.id not in nsfw_channel_ids:
+        return
+    await context.send('ASS BASTARD BELOW')
 
 bot.run(token)
