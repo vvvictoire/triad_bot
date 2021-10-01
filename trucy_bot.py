@@ -22,36 +22,36 @@ async def on_ready():
 async def usd(context, amount):
     amount = float(amount)
     dollars = ltb.eur_to_usd(amount)
-    await context.send(f'{amount} € in USD is ${dollars}')
+    await context.send(f'{amount} € in USD is ${dollars:.2f}')
 
 @bot.command()
 async def eur(context, amount):
     amount = float(amount)
     euros = ltb.usd_to_eur(amount)
-    await context.send(f'${amount} in EUR is {euros} €')
+    await context.send(f'${amount} in EUR is {euros:.2f} €')
 
 @bot.command()
 async def c(context, temperature):
     temperature = float(temperature)
     celsius = ltb.far_to_cel(temperature)
-    await context.send(f'{temperature}°F = {celsius}°C')
+    await context.send(f'{temperature}°F = {celsius:.2f}°C')
 
 @bot.command()
 async def f(context, temperature):
     temperature = float(temperature)
     farenheit = ltb.cel_to_far(temperature)
-    await context.send(f'{temperature}°C = {farenheit}°F')
+    await context.send(f'{temperature}°C = {farenheit:.2f}°F')
 
 @bot.command()
 async def aztime(context):
     az_timezone = ltb.arizona_time()
-    timestring = datetime.datetime.now()
+    timestring = datetime.datetime.now(az_timezone)
     await context.send(timestring)
 
 @bot.command()
 async def frtime(context):
     fr_timezone = ltb.paris_time()
-    timestring = datetime.datetime.now()
+    timestring = datetime.datetime.now(fr_timezone)
     await context.send(timestring)
 
 bot.run(token)
