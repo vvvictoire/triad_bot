@@ -46,7 +46,7 @@ async def f(context, temperature):
 async def aztime(context):
     az_timezone = ltb.arizona_time()
     timestring = datetime.datetime.now(az_timezone).strftime("%H:%M")
-    await context.send(f'Arizonian time is{timestring}')
+    await context.send(f'Arizonian time is {timestring}')
 
 @bot.command()
 async def frtime(context):
