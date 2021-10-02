@@ -15,11 +15,11 @@ def cel_to_far(amount):
 
 def arizona_time():
     MST = pytz.timezone('America/Phoenix')
-    return MST
+    return datetime.datetime.now(MST)
 
 def paris_time():
     CET = pytz.timezone('Europe/Paris')
-    return CET
+    return datetime.datetime.now(CET)
 
 def time_to_paris():
     CET = pytz.timezone('Europe/Paris')
