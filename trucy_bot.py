@@ -66,4 +66,10 @@ async def countdown(context):
     delta = ltb.time_to_paris()
     await context.send(f'Meeting up in {delta["weeks"]} weeks and {delta["days"]} days')
 
+@bot.command()
+async def carl(context):
+    with open(ltb.random_carl(), "rb") as fh:
+        f = discord.File(fh)
+    await context.send(file=f)
+
 bot.run(token)

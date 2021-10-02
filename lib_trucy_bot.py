@@ -1,5 +1,7 @@
 import pytz
 import datetime
+import os
+import random
 
 def usd_to_eur(amount):
     return amount*0.86
@@ -29,3 +31,8 @@ def time_to_paris():
     weeks = delta.days // 7
     days = delta.days % 7
     return {"weeks":weeks, "days":days}
+
+def random_carl():
+    carls = os.listdir('rare_carls')
+    carl = random.choice(carls)
+    return "rare_carls/" + carl
