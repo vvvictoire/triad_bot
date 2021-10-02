@@ -1,4 +1,5 @@
 import pytz
+import datetime
 
 def usd_to_eur(amount):
     return amount*0.86
@@ -19,3 +20,12 @@ def arizona_time():
 def paris_time():
     CET = pytz.timezone('Europe/Paris')
     return CET
+
+def time_to_paris():
+    CET = pytz.timezone('Europe/Paris')
+    arrival = datetime.datetime(2022,2,12,tzinfo=CET)
+    now = datetime.datetime.now(CET)
+    delta = arrival - now
+    weeks = delta.days // 7
+    days = delta.days % 7
+    return {"weeks":weeks, "days":days}

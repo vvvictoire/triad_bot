@@ -61,4 +61,11 @@ async def ass(context):
         return
     await context.send('ASS BASTARD BELOW')
 
+@bot.command()
+async def countdown(context):
+    if context.channel.id not in nsfw_channel_ids:
+        return
+    delta = ltb.time_to_paris()
+    await context.send(f'Meeting up in {delta["weeks"]} weeks and {delta["days"]} days')
+
 bot.run(token)
