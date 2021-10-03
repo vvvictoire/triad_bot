@@ -36,3 +36,7 @@ def random_carl():
     carls = os.listdir('rare_carls')
     carl = random.choice(carls)
     return "rare_carls/" + carl
+
+def carl_count():
+    carls = os.listdir('rare_carls')
+    return len(carls)

@@ -72,4 +72,13 @@ async def carl(context):
         f = discord.File(fh)
     await context.send(file=f)
 
+@bot.command()
+async def carlcount(context):
+    number_of_carls = ltb.carl_count()
+    await context.send(f'I have {number_of_carls} carls!')
+
+@bot.command()
+async def golf(context):
+    await context.send(":desbarres:")
+
 bot.run(token)
