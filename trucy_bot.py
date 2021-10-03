@@ -83,6 +83,14 @@ async def saveconfig(context):
     ltb.save_to_json(config, CONFIG_FILENAME)
 
 @bot.command()
+async def goodshit(context):
+    await context.send('''​👌👀👌👀👌👀👌👀👌👀 good shit go౦ԁ sHit👌 thats ✔
+some good👌👌shit right👌👌there👌👌👌 right✔there ✔✔if i do ƽaү so my self
+💯 i say so 💯 thats what im talking about right there right there (chorus:
+ʳᶦᵍʰᵗ ᵗʰᵉʳᵉ) mMMMMᎷМ💯 👌👌 👌НO0ОଠOOOOOОଠଠOoooᵒᵒᵒᵒᵒᵒ​ᵒᵒᵒ👌 👌👌 👌 💯 👌
+👀 👀 👀 👌👌Good shit'''.replace("\n",''))
+
+@bot.command()
 async def golf(context):
     await context.send(":desbarres:")
 
