@@ -91,7 +91,9 @@ some good👌👌shit right👌👌there👌👌👌 right✔there ✔✔if i do
 👀 👀 👀 👌👌Good shit'''.replace("\n",''))
 
 @bot.command()
-async def golf(context):
-    await context.send(":desbarres:")
+async def golf(context, emoji):
+    invisible = f"<:invisible:{config['emojis']['invisible']}>"
+    siesta = f"<:siesta:{config['emojis']['siesta']}>"
+    await context.send(invisible + emoji + "\n" + siesta + invisible + ":person_golfing:")
 
 bot.run(config['token'])

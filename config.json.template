@@ -1,4 +1,8 @@
 {
     "token": "",
-    "nsfw_channel_ids": []
+    "nsfw_channel_ids": [],
+    "emojis":{
+        "invisible":"",
+        "siesta":""
+    }
 }
