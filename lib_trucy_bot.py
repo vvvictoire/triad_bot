@@ -2,6 +2,7 @@ import pytz
 import datetime
 import os
 import random
+import json
 
 def usd_to_eur(amount):
     return amount*0.86
@@ -40,3 +41,14 @@ def random_carl():
 def carl_count():
     carls = os.listdir('rare_carls')
     return len(carls)
+
+def save_to_json(object_to_save, filename):
+    json_string = json.dumps(object_to_save)
+    f = open(filename,"w")
+    f.write(json_string)
+    f.close()
+
+def load_from_json(filename):
+    f = open(filename,"r")
+    data = json.load(f)
+    return data

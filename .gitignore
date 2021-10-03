@@ -127,6 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Files that should stay private tbh
 discord_client_token.txt
 trucy_bot.db
 nsfw_channel_ids
+config.json

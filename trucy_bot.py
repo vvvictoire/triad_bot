@@ -6,14 +6,13 @@ import datetime
 # Instanciate the bot
 bot = commands.Bot(command_prefix='!')
 
+config = ltb.load_from_json("config.json")
+
 # Token
-token_file = open('discord_client_token.txt')
-token = token_file.read()
+token = config['token']
 
 # NSFW channel IDs
-nsfw_channel_ids_file = open('nsfw_channel_ids')
-nsfw_channel_ids = nsfw_channel_ids_file.read().split()
-nsfw_channel_ids = [int(id) for id in nsfw_channel_ids]
+nsfw_channel_ids = config['nsfw_channel_ids']
 
 @bot.event
 async def on_ready():
@@ -76,6 +75,10 @@ async def carl(context):
 async def carlcount(context):
     number_of_carls = ltb.carl_count()
     await context.send(f'I have {number_of_carls} carls!')
+
+@bot.command()
+async def saveconfig(context):
+    ltb.save_to_json(config, "config.json")
 
 @bot.command()
 async def golf(context):
