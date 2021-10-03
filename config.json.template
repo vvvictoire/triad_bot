@@ -1,5 +1,6 @@
 {
     "token": "",
+    "admins": []
     "nsfw_channel_ids": [],
     "emojis":{
         "invisible":"",

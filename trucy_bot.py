@@ -80,7 +80,11 @@ async def carlcount(context):
 
 @bot.command()
 async def saveconfig(context):
+    if context.author.id not in config['admins']:
+        await context.send("This command is for admins only! :o")
+        return
     ltb.save_to_json(config, CONFIG_FILENAME)
+    await context.send("Config saved!")
 
 @bot.command()
 async def goodshit(context):
