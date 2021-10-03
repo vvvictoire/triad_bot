@@ -3,10 +3,12 @@ from discord.ext import commands
 import lib_trucy_bot as ltb
 import datetime
 
+CONFIG_FILENAME = 'config.json'
+
 # Instanciate the bot
 bot = commands.Bot(command_prefix='!')
 
-config = ltb.load_from_json("config.json")
+config = ltb.load_from_json(CONFIG_FILENAME)
 
 # Token
 token = config['token']
@@ -54,13 +56,13 @@ async def frtime(context):
 
 @bot.command()
 async def ass(context):
-    if context.channel.id not in nsfw_channel_ids:
+    if context.channel.id not in config['nsfw_channel_ids']:
         return
     await context.send('ASS BASTARD BELOW')
 
 @bot.command()
 async def countdown(context):
-    if context.channel.id not in nsfw_channel_ids:
+    if context.channel.id not in config['nsfw_channel_ids']:
         return
     delta = ltb.time_to_paris()
     await context.send(f'Meeting up in {delta["weeks"]} weeks and {delta["days"]} days')
@@ -78,10 +80,10 @@ async def carlcount(context):
 
 @bot.command()
 async def saveconfig(context):
-    ltb.save_to_json(config, "config.json")
+    ltb.save_to_json(config, CONFIG_FILENAME)
 
 @bot.command()
 async def golf(context):
     await context.send(":desbarres:")
 
-bot.run(token)
+bot.run(config['token'])
