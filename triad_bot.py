@@ -3,6 +3,8 @@ from discord.ext import commands
 
 import lib_triad_bot as ltb
 
+# Important config
+
 CONFIG_FILENAME = 'config.json'
 
 # Instanciate the bot
