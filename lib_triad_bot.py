@@ -64,3 +64,7 @@ def load_from_json(filename):
     f = open(filename, "r")
     data = json.load(f)
     return data
+
+
+def json_to_string(_json):
+    return json.dumps(_json, indent=2)

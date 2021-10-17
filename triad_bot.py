@@ -121,6 +121,7 @@ async def dumpconf(context):
         return
     conf = ltb.load_from_json(CONFIG_FILENAME)
     del conf['token']
-    await context.send(conf)
+    conf = ltb.json_to_string(conf)
+    await context.send(f"```json\n{conf}```")
 
 bot.run(config['token'])
