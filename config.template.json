@@ -1,6 +1,7 @@
 {
     "token": "",
-    "admins": []
+    "command_prefix": "",
+    "admins": [],
     "nsfw_channel_ids": [],
     "emojis":{
         "invisible":"",
