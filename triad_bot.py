@@ -6,11 +6,9 @@ import lib_triad_bot as ltb
 # Important config
 
 CONFIG_FILENAME = 'config.json'
-
-# Instanciate the bot
-bot = commands.Bot(command_prefix='!')
-
 config = ltb.load_from_json(CONFIG_FILENAME)
+# Instanciate the bot
+bot = commands.Bot(command_prefix=config['command_prefix'])
 
 # NSFW channel IDs
 nsfw_channel_ids = config['nsfw_channel_ids']
