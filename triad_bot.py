@@ -118,4 +118,14 @@ async def golf(context, emoji):
     await context.send(invisible + emoji + "\n" + siesta + invisible
                        + ":person_golfing:")
 
+
+@bot.command()
+async def dumpconf(context):
+    if context.author.id not in config['admins']:
+        await context.send("This command is for admins only! :o")
+        return
+    conf = ltb.load_from_json(CONFIG_FILENAME)
+    del conf['token']
+    await context.send(conf)
+
 bot.run(config['token'])
