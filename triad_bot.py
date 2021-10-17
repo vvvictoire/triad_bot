@@ -12,9 +12,6 @@ bot = commands.Bot(command_prefix='!')
 
 config = ltb.load_from_json(CONFIG_FILENAME)
 
-# Token
-token = config['token']
-
 # NSFW channel IDs
 nsfw_channel_ids = config['nsfw_channel_ids']
 
