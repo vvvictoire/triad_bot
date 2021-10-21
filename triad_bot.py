@@ -10,9 +10,6 @@ config = ltb.load_from_json(CONFIG_FILENAME)
 # Instanciate the bot
 bot = commands.Bot(command_prefix=config['command_prefix'])
 
-# NSFW channel IDs
-nsfw_channel_ids = config['nsfw_channel_ids']
-
 
 @bot.event
 async def on_ready():
@@ -61,15 +58,11 @@ async def frtime(context):
 
 @bot.command()
 async def ass(context):
-    if context.channel.id not in config['nsfw_channel_ids']:
-        return
     await context.send('ASS BASTARD BELOW')
 
 
 @bot.command()
 async def countdown(context):
-    if context.channel.id not in config['nsfw_channel_ids']:
-        return
     delta = ltb.time_to_paris()
     await context.send(
         f'Meeting up in {delta["weeks"]} weeks and {delta["days"]} days')
