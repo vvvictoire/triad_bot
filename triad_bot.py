@@ -1,3 +1,4 @@
+import copy
 import discord
 from discord.ext import commands
 
@@ -106,6 +107,22 @@ async def golf(context, emoji):
                        + ":person_golfing:")
 
 
+@bot.command()
+async def regional(context, *message):
+    reconstituted_message = ' '.join(message)
+    await context.send("TODO :eye:")
+
+
+@bot.command()
+async def navyseal(context):
+    await context.send("TODO :eye:")
+
+
+@bot.command()
+async def IQ(context):
+    await context.send("TODO :eye:")
+
+
 # Admin commands
 @bot.command()
 @commands.check(admin_locked)
@@ -117,7 +134,7 @@ async def saveconfig(context):
 @bot.command()
 @commands.check(admin_locked)
 async def dumpconf(context):
-    conf = ltb.load_from_json(CONFIG_FILENAME)
+    conf = copy.deepcopy(config)
     del conf['token']
     conf = ltb.json_to_string(conf)
     await context.send(f"```json\n{conf}```")
