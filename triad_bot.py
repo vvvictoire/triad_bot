@@ -123,4 +123,11 @@ async def dumpconf(context):
     await context.send(f"```json\n{conf}```")
 
 
+@bot.command()
+@commands.check(admin_locked)
+async def shutdown(context):
+    await context.send('Good night!')
+    exit()
+
+
 bot.run(config['token'])
