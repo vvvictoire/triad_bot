@@ -11,6 +11,10 @@ config = ltb.load_from_json(CONFIG_FILENAME)
 bot = commands.Bot(command_prefix=config['command_prefix'])
 
 
+def admin_locked(context):
+    return context.message.author.id in config['admins']
+
+
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user}')
@@ -82,10 +86,8 @@ async def carlcount(context):
 
 
 @bot.command()
+@commands.check(admin_locked)
 async def saveconfig(context):
-    if context.author.id not in config['admins']:
-        await context.send("This command is for admins only! :o")
-        return
     ltb.save_to_json(config, CONFIG_FILENAME)
     await context.send("Config saved!")
 
@@ -108,13 +110,12 @@ async def golf(context, emoji):
 
 
 @bot.command()
+@commands.check(admin_locked)
 async def dumpconf(context):
-    if context.author.id not in config['admins']:
-        await context.send("This command is for admins only! :o")
-        return
     conf = ltb.load_from_json(CONFIG_FILENAME)
     del conf['token']
     conf = ltb.json_to_string(conf)
     await context.send(f"```json\n{conf}```")
+
 
 bot.run(config['token'])
