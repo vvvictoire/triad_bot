@@ -2,9 +2,10 @@
     "token": "",
     "command_prefix": "",
     "admins": [],
+    "bot_channel_ids": [],
     "nsfw_channel_ids": [],
     "emojis":{
-        "invisible":"",
-        "siesta":""
+        "invisible":,
+        "siesta":
     }
 }
