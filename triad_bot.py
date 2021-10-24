@@ -20,6 +20,7 @@ async def on_ready():
     print(f'Logged in as {bot.user}')
 
 
+# Money functions
 @bot.command()
 async def usd(context, amount):
     amount = float(amount)
@@ -34,6 +35,7 @@ async def eur(context, amount):
     await context.send(f'${amount} in EUR is {euros:.2f} €')
 
 
+# Temperature fonctions
 @bot.command()
 async def c(context, temperature):
     temperature = float(temperature)
@@ -48,6 +50,7 @@ async def f(context, temperature):
     await context.send(f'{temperature}°C = {farenheit:.2f}°F')
 
 
+# Time functions
 @bot.command()
 async def aztime(context):
     timestring = ltb.arizona_time().strftime("%H:%M")
@@ -61,15 +64,16 @@ async def frtime(context):
 
 
 @bot.command()
-async def ass(context):
-    await context.send('ASS BASTARD BELOW')
-
-
-@bot.command()
 async def countdown(context):
     delta = ltb.time_to_paris()
     await context.send(
         f'Meeting up in {delta["weeks"]} weeks and {delta["days"]} days')
+
+
+# Copypasta commands
+@bot.command()
+async def ass(context):
+    await context.send('ASS BASTARD BELOW')
 
 
 @bot.command()
@@ -83,13 +87,6 @@ async def carl(context):
 async def carlcount(context):
     number_of_carls = ltb.carl_count()
     await context.send(f'I have {number_of_carls} carls!')
-
-
-@bot.command()
-@commands.check(admin_locked)
-async def saveconfig(context):
-    ltb.save_to_json(config, CONFIG_FILENAME)
-    await context.send("Config saved!")
 
 
 @bot.command()
@@ -107,6 +104,14 @@ async def golf(context, emoji):
     siesta = f"<:siesta:{config['emojis']['siesta']}>"
     await context.send(invisible + emoji + "\n" + siesta + invisible
                        + ":person_golfing:")
+
+
+# Admin commands
+@bot.command()
+@commands.check(admin_locked)
+async def saveconfig(context):
+    ltb.save_to_json(config, CONFIG_FILENAME)
+    await context.send("Config saved!")
 
 
 @bot.command()
