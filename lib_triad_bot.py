@@ -2,10 +2,30 @@ import datetime
 import json
 import os
 import random
-
+import requests
 import pytz
 
 
+# Weather
+def get_weather(latitude, longitude, api_key):
+    """latitude and longitude must have 2 decimal places (I think)"""
+    url = 'https://api.openweathermap.org/data/2.5/onecall?units=metric&'
+    arguments = f'lat={latitude}&lon={longitude}&appid={api_key}'
+    url = url + arguments
+    request = requests.get(url)
+    result = request.json()
+    weather_object = result['current']['weather'][0]
+    weather_main = weather_object['main']
+    weather_description = weather_object['description']
+    temperature = result['current']['temp']
+    feels_like = result['current']['feels_like']
+    answer = f'{weather_main}, {weather_description}, '
+    temperature_string = f'{temperature}°C, feels like {feels_like}°C'
+    answer_string = answer + temperature_string
+    return answer_string
+
+
+# Money functions
 def usd_to_eur(amount):
     return amount*0.86
 
@@ -14,6 +34,7 @@ def eur_to_usd(amount):
     return amount*1.16
 
 
+# Temperature functions
 def far_to_cel(amount):
     return (amount - 32)*5/9
 
@@ -22,6 +43,7 @@ def cel_to_far(amount):
     return amount*1.8 + 32
 
 
+# Time functions
 def arizona_time():
     MST = pytz.timezone('America/Phoenix')
     return datetime.datetime.now(MST)
@@ -42,6 +64,7 @@ def time_to_paris():
     return {"weeks": weeks, "days": days}
 
 
+# Copypasta functions
 def random_carl():
     carls = os.listdir('rare_carls')
     carl = random.choice(carls)
@@ -53,6 +76,7 @@ def carl_count():
     return len(carls)
 
 
+# Admin functions
 def save_to_json(object_to_save, filename):
     json_string = json.dumps(object_to_save)
     f = open(filename, "w")
@@ -68,3 +92,7 @@ def load_from_json(filename):
 
 def json_to_string(_json):
     return json.dumps(_json, indent=2)
+
+
+def pretty_print_json(_json):
+    return(f"```json\n{_json}```")

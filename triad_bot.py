@@ -21,6 +21,18 @@ async def on_ready():
     print(f'Logged in as {bot.user}')
 
 
+# Weather
+@bot.command()
+async def w(context, country):
+    if country not in config['weather_cities']:
+        await context.send('I’m not configured for this country :(')
+    weather = ltb.get_weather(
+        config['weather_cities'][country]['latitude'],
+        config['weather_cities'][country]['longitude'],
+        config['openweathermap_api_key'])
+    await context.send(weather)
+
+
 # Money functions
 @bot.command()
 async def usd(context, amount):
@@ -110,6 +122,7 @@ async def golf(context, emoji):
 @bot.command()
 async def regional(context, *message):
     reconstituted_message = ' '.join(message)
+    print(reconstituted_message)
     await context.send("TODO :eye:")
 
 
@@ -137,7 +150,7 @@ async def dumpconf(context):
     conf = copy.deepcopy(config)
     del conf['token']
     conf = ltb.json_to_string(conf)
-    await context.send(f"```json\n{conf}```")
+    await context.send(ltb.pretty_print_json(conf))
 
 
 @bot.command()

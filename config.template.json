@@ -1,11 +1,18 @@
 {
     "token": "",
     "command_prefix": "",
+    "openweathermap_api_key": "",
+    "weather_cities": {
+        "fr": {
+            "longitude": 0,
+            "latitude": 0
+        }
+    },
     "admins": [],
     "bot_channel_ids": [],
     "nsfw_channel_ids": [],
     "emojis":{
-        "invisible":,
-        "siesta":
+        "invisible": 0,
+        "siesta": 0
     }
 }
