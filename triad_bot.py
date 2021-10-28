@@ -24,15 +24,33 @@ async def on_ready():
 # Weather
 @bot.command()
 async def w(context, country):
-    if country not in config['weather_cities']:
+    try:
+        weather = ltb.get_weather(
+            config['weather_cities'][country]['latitude'],
+            config['weather_cities'][country]['longitude'],
+            config['openweathermap_api_key'])
+        stringified_weather = ltb.stringify_weather(weather['current'])
+        await context.send(stringified_weather)
+    except KeyError:
         await context.send('I’m not configured for this country :(')
         return
-    weather = ltb.get_weather(
-        config['weather_cities'][country]['latitude'],
-        config['weather_cities'][country]['longitude'],
-        config['openweathermap_api_key'])
-    stringified_weather = ltb.stringify_weather(weather['current'])
-    await context.send(stringified_weather)
+
+
+@bot.command()
+async def wr(context, country):
+    try:
+        weather = ltb.get_weather(
+            config['weather_cities'][country]['latitude'],
+            config['weather_cities'][country]['longitude'],
+            config['openweathermap_api_key'])
+        daily_weather = weather['daily']
+        stringified_weather = ""
+        for day in daily_weather:
+            stringified_weather += (ltb.stringify_weather(day) + "\n")
+        await context.send(stringified_weather)
+    except KeyError:
+        await context.send('I’m not configured for this country :(')
+        return
 
 
 # Money functions
@@ -89,6 +107,7 @@ async def countdown(context):
 @bot.command()
 async def ass(context):
     await context.send('ASS BASTARD BELOW')
+    # as HECKIN soos
 
 
 @bot.command()

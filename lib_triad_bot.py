@@ -20,9 +20,16 @@ def get_weather(latitude, longitude, api_key):
 def stringify_weather(weather):
     main = weather['weather'][0]['main']
     description = weather['weather'][0]['description']
-    weather_string = f'{main}, {description} '
-    temperature = weather['temp']
-    feels_like = weather['feels_like']
+    date = date_from_unix(weather['dt'])
+    weather_string = f'{date}: {main}, {description} '
+    temperature = None
+    feels_like = None
+    try:
+        temperature = weather['temp']['day']
+        feels_like = weather['feels_like']['day']
+    except TypeError:
+        temperature = weather['temp']
+        feels_like = weather['feels_like']
     temperature_string = f'{temperature}°C, feels like {feels_like}°C'
     return weather_string + temperature_string
 
@@ -54,6 +61,12 @@ def arizona_time():
 def paris_time():
     CET = pytz.timezone('Europe/Paris')
     return datetime.datetime.now(CET)
+
+
+def date_from_unix(timestamp):
+    time = datetime.datetime.fromtimestamp(timestamp)
+    time_string = time.strftime("%A %d %b")
+    return time_string
 
 
 def time_to_paris():
