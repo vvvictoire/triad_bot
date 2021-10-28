@@ -31,7 +31,8 @@ async def w(context, country):
         config['weather_cities'][country]['latitude'],
         config['weather_cities'][country]['longitude'],
         config['openweathermap_api_key'])
-    await context.send(weather)
+    stringified_weather = ltb.stringify_weather(weather['current'])
+    await context.send(stringified_weather)
 
 
 # Money functions

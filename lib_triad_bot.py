@@ -13,9 +13,8 @@ def get_weather(latitude, longitude, api_key):
     arguments = f'lat={latitude}&lon={longitude}&appid={api_key}'
     url = url + arguments
     request = requests.get(url)
-    result = request.json()
-    weather_string = stringify_weather(result['current'])
-    return weather_string
+    weather = request.json()
+    return weather
 
 
 def stringify_weather(weather):
