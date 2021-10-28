@@ -20,7 +20,7 @@ def get_weather(latitude, longitude, api_key):
 def stringify_weather(weather):
     main = weather['weather'][0]['main']
     description = weather['weather'][0]['description']
-    date = date_from_unix(weather['dt'])
+    date = date_from_unix(weather['dt'] + weather['timezone_offset'])
     weather_string = f'{date}: {main}, {description} '
     temperature = None
     feels_like = None
