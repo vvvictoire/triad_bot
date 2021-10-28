@@ -111,3 +111,8 @@ def json_to_string(_json):
 
 def pretty_print_json(_json):
     return(f"```json\n{_json}```")
+
+
+def read_from_file(filename):
+    with open(filename, 'r') as file:
+        return file.read()

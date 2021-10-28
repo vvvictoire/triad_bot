@@ -149,7 +149,8 @@ async def regional(context, *message):
 
 @bot.command()
 async def navyseal(context):
-    await context.send("TODO :eye:")
+    copypasta = ltb.read_from_file("copypastas/navy_seal.txt")
+    await context.send(copypasta)
 
 
 @bot.command()
