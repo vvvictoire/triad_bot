@@ -14,16 +14,16 @@ def get_weather(latitude, longitude, api_key):
     url = url + arguments
     request = requests.get(url)
     result = request.json()
-    weather_string = stringify_current_weather(result)
+    weather_string = stringify_weather(result['current'])
     return weather_string
 
 
-def stringify_current_weather(weather):
-    main = weather['current']['weather'][0]['main']
-    description = weather['current']['weather'][0]['description']
+def stringify_weather(weather):
+    main = weather['weather'][0]['main']
+    description = weather['weather'][0]['description']
     weather_string = f'{main}, {description} '
-    temperature = weather['current']['temp']
-    feels_like = weather['current']['feels_like']
+    temperature = weather['temp']
+    feels_like = weather['feels_like']
     temperature_string = f'{temperature}°C, feels like {feels_like}°C'
     return weather_string + temperature_string
 
