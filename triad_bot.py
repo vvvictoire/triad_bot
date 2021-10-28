@@ -155,7 +155,8 @@ async def navyseal(context):
 
 @bot.command()
 async def IQ(context):
-    await context.send("TODO :eye:")
+    copypasta = ltb.read_from_file("copypastas/IQ.txt")
+    await context.send(copypasta)
 
 
 # Admin commands
