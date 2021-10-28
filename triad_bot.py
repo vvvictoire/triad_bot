@@ -26,6 +26,7 @@ async def on_ready():
 async def w(context, country):
     if country not in config['weather_cities']:
         await context.send('I’m not configured for this country :(')
+        return
     weather = ltb.get_weather(
         config['weather_cities'][country]['latitude'],
         config['weather_cities'][country]['longitude'],
