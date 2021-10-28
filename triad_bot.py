@@ -23,13 +23,22 @@ async def on_ready():
 
 # Weather
 @bot.command()
-async def w(context, country):
+async def w(context, country, units="metric"):
+    # If we don’t want metric, use imperial and Farenheit
+    if units != "metric":
+        units = "imperial"
+        unit_symbol = 'F'
+    # If we want metric, just use Celsius
+    else:
+        unit_symbol = 'C'
     try:
         weather = ltb.get_weather(
             config['weather_cities'][country]['latitude'],
             config['weather_cities'][country]['longitude'],
-            config['openweathermap_api_key'])
-        stringified_weather = ltb.stringify_weather(weather['current'])
+            config['openweathermap_api_key'],
+            units)
+        stringified_weather = ltb.stringify_weather(weather['current'],
+                                                    unit_symbol)
         await context.send(stringified_weather)
     except KeyError:
         await context.send('I’m not configured for this country :(')

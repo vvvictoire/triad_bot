@@ -7,20 +7,22 @@ import pytz
 
 
 # Weather
-def get_weather(latitude, longitude, api_key):
+def get_weather(latitude, longitude, api_key, units):
     """latitude and longitude must have 2 decimal places (I think)"""
-    url = 'https://api.openweathermap.org/data/2.5/onecall?units=metric&'
-    arguments = f'lat={latitude}&lon={longitude}&appid={api_key}'
+    url = 'https://api.openweathermap.org/data/2.5/onecall?'
+    arguments = f'units={units}&lat={latitude}&lon={longitude}&appid={api_key}'
     url = url + arguments
     request = requests.get(url)
     weather = request.json()
     return weather
 
 
-def stringify_weather(weather):
+def stringify_weather(weather, unit_symbol="C"):
     main = weather['weather'][0]['main']
     description = weather['weather'][0]['description']
-    date = date_from_unix(weather['dt'] + weather['timezone_offset'])
+    current_timestamp = weather['dt']
+    timezone_offset = weather.get('timezone_offset', 0)
+    date = date_from_unix(current_timestamp + timezone_offset)
     weather_string = f'{date}: {main}, {description} '
     temperature = None
     feels_like = None
@@ -30,7 +32,8 @@ def stringify_weather(weather):
     except TypeError:
         temperature = weather['temp']
         feels_like = weather['feels_like']
-    temperature_string = f'{temperature}°C, feels like {feels_like}°C'
+    temperature_string = f'{temperature}°{unit_symbol}, '
+    temperature_string += f'feels like {feels_like}°{unit_symbol}'
     return weather_string + temperature_string
 
 
