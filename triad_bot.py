@@ -2,6 +2,7 @@ import copy
 import discord
 from discord.ext import commands
 import modules.money
+import modules.temperature
 
 import lib_triad_bot as ltb
 
@@ -77,25 +78,6 @@ class Weather(commands.Cog):
         except KeyError:
             await context.send('I’m not configured for this country :(')
             return
-
-
-class Temperature(commands.Cog):
-    """Converting temperatures"""
-    def __init__(self, bot) -> None:
-        super().__init__()
-        self.bot = bot
-
-    @commands.command()
-    async def c(self, context, temperature):
-        temperature = float(temperature)
-        celsius = ltb.far_to_cel(temperature)
-        await context.send(f'{temperature}°F = {celsius:.2f}°C')
-
-    @commands.command()
-    async def f(self, context, temperature):
-        temperature = float(temperature)
-        farenheit = ltb.cel_to_far(temperature)
-        await context.send(f'{temperature}°C = {farenheit:.2f}°F')
 
 
 class Time(commands.Cog):
@@ -218,7 +200,7 @@ class Admin(commands.Cog):
 
 bot.add_cog(Weather(bot))
 bot.add_cog(modules.money.Money(bot))
-bot.add_cog(Temperature(bot))
+bot.add_cog(modules.temperature.Temperature(bot))
 bot.add_cog(Time(bot))
 bot.add_cog(Copypasta(bot))
 bot.add_cog(Admin(bot))
