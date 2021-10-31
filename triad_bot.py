@@ -22,54 +22,60 @@ async def on_ready():
     print(f'Logged in as {bot.user}')
 
 
-# Weather
-@bot.command()
-async def w(context, country, units="metric"):
-    # If we don’t want metric, use imperial and Farenheit
-    if units != "metric":
-        units = "imperial"
-        unit_symbol = 'F'
-    # If we want metric, just use Celsius
-    else:
-        unit_symbol = 'C'
-    try:
-        weather = ltb.get_weather(
-            config['weather_cities'][country]['latitude'],
-            config['weather_cities'][country]['longitude'],
-            config['openweathermap_api_key'],
-            units)
-        stringified_weather = ltb.stringify_weather(weather['current'],
-                                                    unit_symbol)
-        await context.send(stringified_weather)
-    except KeyError:
-        await context.send('I’m not configured for this country :(')
-        return
+class Weather(commands.Cog):
+    """Commands for the weather"""
+    def __init__(self, bot) -> None:
+        super().__init__()
+        self.bot = bot
 
+    @commands.command()
+    async def w(self, context, country, units="metric"):
+        """Gives current weather of a location"""
+        # If we don’t want metric, use imperial and Farenheit
+        if units != "metric":
+            units = "imperial"
+            unit_symbol = 'F'
+        # If we want metric, just use Celsius
+        else:
+            unit_symbol = 'C'
+        try:
+            weather = ltb.get_weather(
+                config['weather_cities'][country]['latitude'],
+                config['weather_cities'][country]['longitude'],
+                config['_keys']['openweathermap_api_key'],
+                units)
+            stringified_weather = ltb.stringify_weather(weather['current'],
+                                                        unit_symbol)
+            await context.send(stringified_weather)
+        except KeyError:
+            await context.send('I’m not configured for this country :(')
+            return
 
-@bot.command()
-async def wr(context, country, units="metric"):
-    # If we don’t want metric, use imperial and Farenheit
-    if units != "metric":
-        units = "imperial"
-        unit_symbol = 'F'
-    # If we want metric, just use Celsius
-    else:
-        unit_symbol = 'C'
-    try:
-        weather = ltb.get_weather(
-            config['weather_cities'][country]['latitude'],
-            config['weather_cities'][country]['longitude'],
-            config['_keys']['openweathermap_api_key'],
-            units)
-        daily_weather = weather['daily']
-        stringified_weather = ""
-        for day in daily_weather:
-            stringified_weather += (ltb.stringify_weather(
-                                    day, unit_symbol) + "\n")
-        await context.send(stringified_weather)
-    except KeyError:
-        await context.send('I’m not configured for this country :(')
-        return
+    @commands.command()
+    async def wr(self, context, country, units="metric"):
+        """Gives a weather report for the next 7 days"""
+        # If we don’t want metric, use imperial and Farenheit
+        if units != "metric":
+            units = "imperial"
+            unit_symbol = 'F'
+        # If we want metric, just use Celsius
+        else:
+            unit_symbol = 'C'
+        try:
+            weather = ltb.get_weather(
+                config['weather_cities'][country]['latitude'],
+                config['weather_cities'][country]['longitude'],
+                config['_keys']['openweathermap_api_key'],
+                units)
+            daily_weather = weather['daily']
+            stringified_weather = ""
+            for day in daily_weather:
+                stringified_weather += (ltb.stringify_weather(
+                                        day, unit_symbol) + "\n")
+            await context.send(stringified_weather)
+        except KeyError:
+            await context.send('I’m not configured for this country :(')
+            return
 
 
 # Money functions
@@ -201,5 +207,5 @@ async def shutdown(context):
     await context.send('Good night!')
     exit()
 
-
+bot.add_cog(Weather(bot))
 bot.run(config['_keys']['token'])
