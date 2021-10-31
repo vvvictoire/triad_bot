@@ -10,6 +10,7 @@ CONFIG_FILENAME = 'config.json'
 config = ltb.load_from_json(CONFIG_FILENAME)
 # Instanciate the bot
 bot = commands.Bot(command_prefix=config['command_prefix'])
+bot.description = config['description']
 
 
 def admin_locked(context):
@@ -58,7 +59,7 @@ async def wr(context, country, units="metric"):
         weather = ltb.get_weather(
             config['weather_cities'][country]['latitude'],
             config['weather_cities'][country]['longitude'],
-            config['openweathermap_api_key'],
+            config['_keys']['openweathermap_api_key'],
             units)
         daily_weather = weather['daily']
         stringified_weather = ""
@@ -189,7 +190,7 @@ async def saveconfig(context):
 @commands.check(admin_locked)
 async def dumpconf(context):
     conf = copy.deepcopy(config)
-    del conf['token']
+    del conf['_keys']
     conf = ltb.json_to_string(conf)
     await context.send(ltb.pretty_print_json(conf))
 
@@ -201,4 +202,4 @@ async def shutdown(context):
     exit()
 
 
-bot.run(config['token'])
+bot.run(config['_keys']['token'])

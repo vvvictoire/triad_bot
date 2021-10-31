@@ -1,7 +1,10 @@
 {
-    "token": "",
+    "_keys": {
+        "token": "",
+        "openweathermap_api_key": ""
+    },
+    "description": "",
     "command_prefix": "",
-    "openweathermap_api_key": "",
     "weather_cities": {
         "fr": {
             "longitude": 0,
