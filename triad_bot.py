@@ -78,134 +78,168 @@ class Weather(commands.Cog):
             return
 
 
-# Money functions
-@bot.command()
-async def usd(context, amount):
-    amount = float(amount)
-    dollars = ltb.eur_to_usd(amount)
-    await context.send(f'{amount} € in USD is ${dollars:.2f}')
+class Money(commands.Cog):
+    """Converting currencies"""
+    def __init__(self, bot) -> None:
+        super().__init__()
+        self.bot = bot
+
+    @commands.command()
+    async def usd(self, context, amount):
+        """Convert the EUR amount into USB"""
+        amount = float(amount)
+        dollars = ltb.eur_to_usd(amount)
+        await context.send(f'{amount} € in USD is ${dollars:.2f}')
+
+    @commands.command()
+    async def eur(self, context, amount):
+        """Convert the USD amount into EUR"""
+        amount = float(amount)
+        euros = ltb.usd_to_eur(amount)
+        await context.send(f'${amount} in EUR is {euros:.2f} €')
 
 
-@bot.command()
-async def eur(context, amount):
-    amount = float(amount)
-    euros = ltb.usd_to_eur(amount)
-    await context.send(f'${amount} in EUR is {euros:.2f} €')
+class Temperature(commands.Cog):
+    """Converting temperatures"""
+    def __init__(self, bot) -> None:
+        super().__init__()
+        self.bot = bot
+
+    @commands.command()
+    async def c(self, context, temperature):
+        temperature = float(temperature)
+        celsius = ltb.far_to_cel(temperature)
+        await context.send(f'{temperature}°F = {celsius:.2f}°C')
+
+    @commands.command()
+    async def f(self, context, temperature):
+        temperature = float(temperature)
+        farenheit = ltb.cel_to_far(temperature)
+        await context.send(f'{temperature}°C = {farenheit:.2f}°F')
 
 
-# Temperature fonctions
-@bot.command()
-async def c(context, temperature):
-    temperature = float(temperature)
-    celsius = ltb.far_to_cel(temperature)
-    await context.send(f'{temperature}°F = {celsius:.2f}°C')
+class Time(commands.Cog):
+    """Time in other timezones, and countdowns"""
+    def __init__(self, bot) -> None:
+        super().__init__()
+        self.bot = bot
+
+    @commands.command()
+    async def aztime(self, context):
+        """Current time in Arizona"""
+        timestring = ltb.arizona_time().strftime("%H:%M")
+        await context.send(f'Arizonian time is {timestring}')
+
+    @commands.command()
+    async def frtime(self, context):
+        """Current time in France"""
+        timestring = ltb.paris_time().strftime("%H:%M")
+        await context.send(f'Paris time is {timestring}')
+
+    @commands.command()
+    async def countdown(self, context):
+        """How many days until The Meetup?"""
+        delta = ltb.time_to_paris()
+        await context.send(
+            f'Meeting up in {delta["weeks"]} weeks and {delta["days"]} days')
 
 
-@bot.command()
-async def f(context, temperature):
-    temperature = float(temperature)
-    farenheit = ltb.cel_to_far(temperature)
-    await context.send(f'{temperature}°C = {farenheit:.2f}°F')
+class Copypasta(commands.Cog):
+    """Copypasting commands"""
+    def __init__(self, bot) -> None:
+        super().__init__()
+        self.bot = bot
+
+    @commands.command()
+    async def ass(self, context):
+        """Sends a random As Above, So Below message"""
+        await context.send('ASS BASTARD BELOW')
+        # as HECKIN soos
+
+    @commands.command()
+    async def carl(self, context):
+        """Shows a random Rare Carl!"""
+        with open(ltb.random_carl(), "rb") as fh:
+            f = discord.File(fh)
+        await context.send(file=f)
+
+    @commands.command()
+    async def carlcount(self, context):
+        """Displays how many Rare Carls do we have"""
+        number_of_carls = ltb.carl_count()
+        await context.send(f'I have {number_of_carls} carls!')
+
+    @commands.command()
+    async def goodshit(self, context):
+        """When something is go౦ԁ sHit👌"""
+        await context.send('''​👌👀👌👀👌👀👌👀👌👀 good shit go౦ԁ sHit👌 thats ✔
+    some good👌👌shit right👌👌there👌👌👌 right✔there ✔✔if i do ƽaү so my self
+    💯 i say so 💯 thats what im talking about right there right there (chorus:
+    ʳᶦᵍʰᵗ ᵗʰᵉʳᵉ) mMMMMᎷМ💯 👌👌 👌НO0ОଠOOOOOОଠଠOoooᵒᵒᵒᵒᵒᵒ​ᵒᵒᵒ👌 👌👌 👌 💯 👌
+    👀 👀 👀 👌👌Good shit'''.replace("\n", ''))
+
+    @commands.command()
+    async def golf(self, context, emoji):
+        """SIESTA GO TO SLEEP"""
+        invisible = f"<:invisible:{config['emojis']['invisible']}>"
+        siesta = f"<:siesta:{config['emojis']['siesta']}>"
+        await context.send(invisible + emoji + "\n" + siesta + invisible
+                           + ":person_golfing:")
+
+    @commands.command()
+    async def regional(self, context, *message):
+        """Puts a message in regional indicators"""
+        reconstituted_message = ' '.join(message)
+        print(reconstituted_message)
+        await context.send("TODO :eye:")
+
+    @commands.command()
+    async def navyseal(self, context):
+        """Only use it if you have over 300 confirmed gorilla warfares"""
+        copypasta = ltb.read_from_file("copypastas/navy_seal.txt")
+        await context.send(copypasta)
+
+    @commands.command()
+    async def IQ(self, context):
+        """Wubba lubba dub dub"""
+        copypasta = ltb.read_from_file("copypastas/IQ.txt")
+        await context.send(copypasta)
 
 
-# Time functions
-@bot.command()
-async def aztime(context):
-    timestring = ltb.arizona_time().strftime("%H:%M")
-    await context.send(f'Arizonian time is {timestring}')
+class Admin(commands.Cog):
+    """Admin commands (you shouldn’t be around here tbh)"""
+    def __init__(self, bot) -> None:
+        super().__init__()
+        self.bot = bot
 
+    @commands.command()
+    @commands.check(admin_locked)
+    async def saveconfig(self, context):
+        """Exports the config to CONFIG_FILENAME"""
+        ltb.save_to_json(config, CONFIG_FILENAME)
+        await context.send("Config saved!")
 
-@bot.command()
-async def frtime(context):
-    timestring = ltb.paris_time().strftime("%H:%M")
-    await context.send(f'Paris time is {timestring}')
+    @commands.command()
+    @commands.check(admin_locked)
+    async def dumpconf(self, context):
+        """Dumps the current config (except the _keys)"""
+        conf = copy.deepcopy(config)
+        del conf['_keys']
+        conf = ltb.json_to_string(conf)
+        await context.send(ltb.pretty_print_json(conf))
 
+    @commands.command()
+    @commands.check(admin_locked)
+    async def shutdown(self, context):
+        """Shuts off the bot"""
+        await context.send('Good night!')
+        exit()
 
-@bot.command()
-async def countdown(context):
-    delta = ltb.time_to_paris()
-    await context.send(
-        f'Meeting up in {delta["weeks"]} weeks and {delta["days"]} days')
-
-
-# Copypasta commands
-@bot.command()
-async def ass(context):
-    await context.send('ASS BASTARD BELOW')
-    # as HECKIN soos
-
-
-@bot.command()
-async def carl(context):
-    with open(ltb.random_carl(), "rb") as fh:
-        f = discord.File(fh)
-    await context.send(file=f)
-
-
-@bot.command()
-async def carlcount(context):
-    number_of_carls = ltb.carl_count()
-    await context.send(f'I have {number_of_carls} carls!')
-
-
-@bot.command()
-async def goodshit(context):
-    await context.send('''​👌👀👌👀👌👀👌👀👌👀 good shit go౦ԁ sHit👌 thats ✔
-some good👌👌shit right👌👌there👌👌👌 right✔there ✔✔if i do ƽaү so my self
-💯 i say so 💯 thats what im talking about right there right there (chorus:
-ʳᶦᵍʰᵗ ᵗʰᵉʳᵉ) mMMMMᎷМ💯 👌👌 👌НO0ОଠOOOOOОଠଠOoooᵒᵒᵒᵒᵒᵒ​ᵒᵒᵒ👌 👌👌 👌 💯 👌
-👀 👀 👀 👌👌Good shit'''.replace("\n", ''))
-
-
-@bot.command()
-async def golf(context, emoji):
-    invisible = f"<:invisible:{config['emojis']['invisible']}>"
-    siesta = f"<:siesta:{config['emojis']['siesta']}>"
-    await context.send(invisible + emoji + "\n" + siesta + invisible
-                       + ":person_golfing:")
-
-
-@bot.command()
-async def regional(context, *message):
-    reconstituted_message = ' '.join(message)
-    print(reconstituted_message)
-    await context.send("TODO :eye:")
-
-
-@bot.command()
-async def navyseal(context):
-    copypasta = ltb.read_from_file("copypastas/navy_seal.txt")
-    await context.send(copypasta)
-
-
-@bot.command()
-async def IQ(context):
-    copypasta = ltb.read_from_file("copypastas/IQ.txt")
-    await context.send(copypasta)
-
-
-# Admin commands
-@bot.command()
-@commands.check(admin_locked)
-async def saveconfig(context):
-    ltb.save_to_json(config, CONFIG_FILENAME)
-    await context.send("Config saved!")
-
-
-@bot.command()
-@commands.check(admin_locked)
-async def dumpconf(context):
-    conf = copy.deepcopy(config)
-    del conf['_keys']
-    conf = ltb.json_to_string(conf)
-    await context.send(ltb.pretty_print_json(conf))
-
-
-@bot.command()
-@commands.check(admin_locked)
-async def shutdown(context):
-    await context.send('Good night!')
-    exit()
 
 bot.add_cog(Weather(bot))
+bot.add_cog(Money(bot))
+bot.add_cog(Temperature(bot))
+bot.add_cog(Time(bot))
+bot.add_cog(Copypasta(bot))
+bot.add_cog(Admin(bot))
 bot.run(config['_keys']['token'])
