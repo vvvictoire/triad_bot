@@ -3,6 +3,7 @@ import discord
 from discord.ext import commands
 import modules.money
 import modules.temperature
+import modules.time
 
 import lib_triad_bot as ltb
 
@@ -78,32 +79,6 @@ class Weather(commands.Cog):
         except KeyError:
             await context.send('I’m not configured for this country :(')
             return
-
-
-class Time(commands.Cog):
-    """Time in other timezones, and countdowns"""
-    def __init__(self, bot) -> None:
-        super().__init__()
-        self.bot = bot
-
-    @commands.command()
-    async def aztime(self, context):
-        """Current time in Arizona"""
-        timestring = ltb.arizona_time().strftime("%H:%M")
-        await context.send(f'Arizonian time is {timestring}')
-
-    @commands.command()
-    async def frtime(self, context):
-        """Current time in France"""
-        timestring = ltb.paris_time().strftime("%H:%M")
-        await context.send(f'Paris time is {timestring}')
-
-    @commands.command()
-    async def countdown(self, context):
-        """How many days until The Meetup?"""
-        delta = ltb.time_to_paris()
-        await context.send(
-            f'Meeting up in {delta["weeks"]} weeks and {delta["days"]} days')
 
 
 class Copypasta(commands.Cog):
@@ -201,7 +176,7 @@ class Admin(commands.Cog):
 bot.add_cog(Weather(bot))
 bot.add_cog(modules.money.Money(bot))
 bot.add_cog(modules.temperature.Temperature(bot))
-bot.add_cog(Time(bot))
+bot.add_cog(modules.time.Time(bot))
 bot.add_cog(Copypasta(bot))
 bot.add_cog(Admin(bot))
 bot.run(config['_keys']['token'])
