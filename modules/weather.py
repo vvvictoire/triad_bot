@@ -1,13 +1,13 @@
 from discord.ext import commands
 import lib_triad_bot as ltb
-from modules.config import Config
 
 
 class Weather(commands.Cog):
     """Commands for the weather"""
-    def __init__(self, bot) -> None:
+    def __init__(self, bot, config) -> None:
         super().__init__()
         self.bot = bot
+        self.config = config.config
 
     @commands.command()
     async def w(self, context, country, units="metric"):
@@ -21,9 +21,9 @@ class Weather(commands.Cog):
             unit_symbol = 'C'
         try:
             weather = ltb.get_weather(
-                Config.config['weather_cities'][country]['latitude'],
-                Config.config['weather_cities'][country]['longitude'],
-                Config.config['_keys']['openweathermap_api_key'],
+                self.config['weather_cities'][country]['latitude'],
+                self.config['weather_cities'][country]['longitude'],
+                self.config['_keys']['openweathermap_api_key'],
                 units)
             stringified_weather = ltb.stringify_weather(weather['current'],
                                                         unit_symbol)
@@ -44,9 +44,9 @@ class Weather(commands.Cog):
             unit_symbol = 'C'
         try:
             weather = ltb.get_weather(
-                Config.config['weather_cities'][country]['latitude'],
-                Config.config['weather_cities'][country]['longitude'],
-                Config.config['_keys']['openweathermap_api_key'],
+                self.config['weather_cities'][country]['latitude'],
+                self.config['weather_cities'][country]['longitude'],
+                self.config['_keys']['openweathermap_api_key'],
                 units)
             daily_weather = weather['daily']
             stringified_weather = ""
