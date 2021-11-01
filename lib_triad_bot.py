@@ -103,9 +103,9 @@ def save_to_json(object_to_save, filename):
 
 
 def load_from_json(filename):
-    f = open(filename, "r")
-    data = json.load(f)
-    return data
+    with open(filename, "r") as file:
+        data = json.load(file)
+        return data
 
 
 def json_to_string(_json):

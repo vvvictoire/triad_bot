@@ -1,14 +1,14 @@
 from discord.ext import commands
 import discord
 import lib_triad_bot as ltb
-from modules.config import Config
 
 
 class Copypasta(commands.Cog):
     """Copypasting commands"""
-    def __init__(self, bot) -> None:
+    def __init__(self, bot, config) -> None:
         super().__init__()
         self.bot = bot
+        self.config = config.config
 
     @commands.command()
     async def ass(self, context):
@@ -41,8 +41,8 @@ class Copypasta(commands.Cog):
     @commands.command()
     async def golf(self, context, emoji):
         """SIESTA GO TO SLEEP"""
-        invisible = f"<:invisible:{Config.config['emojis']['invisible']}>"
-        siesta = f"<:siesta:{Config.config['emojis']['siesta']}>"
+        invisible = f"<:invisible:{self.config['emojis']['invisible']}>"
+        siesta = f"<:siesta:{self.config['emojis']['siesta']}>"
         await context.send(invisible + emoji + "\n" + siesta + invisible
                            + ":person_golfing:")
 
