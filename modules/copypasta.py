@@ -1,6 +1,7 @@
+"""Copypasta commands"""
 from discord.ext import commands
 import discord
-import lib_triad_bot as ltb
+from modules import lib_triad_bot as ltb
 
 
 class Copypasta(commands.Cog):
@@ -19,9 +20,9 @@ class Copypasta(commands.Cog):
     @commands.command()
     async def carl(self, context):
         """Shows a random Rare Carl!"""
-        with open(ltb.random_carl(), "rb") as fh:
-            f = discord.File(fh)
-        await context.send(file=f)
+        with open(ltb.random_carl(), "rb") as filehandle:
+            filehandle = discord.File(filehandle)
+        await context.send(file=filehandle)
 
     @commands.command()
     async def carlcount(self, context):
@@ -60,7 +61,7 @@ class Copypasta(commands.Cog):
         await context.send(copypasta)
 
     @commands.command()
-    async def IQ(self, context):
+    async def rick(self, context):
         """Wubba lubba dub dub"""
         copypasta = ltb.read_from_file("copypastas/IQ.txt")
         await context.send(copypasta)

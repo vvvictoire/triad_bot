@@ -1,5 +1,6 @@
+"""Time commands"""
 from discord.ext import commands
-import lib_triad_bot as ltb
+from modules import lib_triad_bot as ltb
 
 
 class Time(commands.Cog):

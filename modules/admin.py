@@ -1,6 +1,9 @@
-from discord.ext import commands
+"""Admin commands"""
 import copy
-import lib_triad_bot as ltb
+
+from discord.ext import commands
+
+from modules import lib_triad_bot as ltb
 
 
 class Admin(commands.Cog):
@@ -14,7 +17,6 @@ class Admin(commands.Cog):
     @commands.is_owner()
     async def saveconfig(self, context):
         """Exports the config to CONFIG_FILENAME (disabled for now)"""
-        pass
         # ltb.save_to_json(Config.config, self.CONFIG_FILENAME)
         # await context.send("Config saved!")
 
@@ -22,7 +24,7 @@ class Admin(commands.Cog):
     @commands.is_owner()
     async def dumpconf(self, context):
         """Dumps the current config (except the _keys)"""
-        conf = copy.deepcopy(self.config)
+        conf = copy.deepcopy(self.config.config)
         del conf['_keys']
         conf = ltb.json_to_string(conf)
         await context.send(ltb.pretty_print_json(conf))

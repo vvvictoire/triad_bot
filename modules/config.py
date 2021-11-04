@@ -1,4 +1,5 @@
-import lib_triad_bot as ltb
+"""Handle configuration"""
+from modules import lib_triad_bot as ltb
 
 
 class Config():
