@@ -1,7 +1,9 @@
 """Copypasta commands"""
-from discord.ext import commands
+import os
+import random
+
 import discord
-from modules import lib_triad_bot as ltb
+from discord.ext import commands
 
 
 class Copypasta(commands.Cog):
@@ -10,6 +12,22 @@ class Copypasta(commands.Cog):
         super().__init__()
         self.bot = bot
         self.config = config.config
+
+    def read_from_file(self, filename):
+        """Reads a file"""
+        with open(filename, 'r', encoding="utf-8") as file:
+            return file.read()
+
+    def random_carl(self):
+        """Pick a random filename in rare_carls folder"""
+        carls = os.listdir('rare_carls')
+        carl = random.choice(carls)
+        return "rare_carls/" + carl
+
+    def carl_count(self):
+        """Counts how many carls in rare_carls folder"""
+        carls = os.listdir('rare_carls')
+        return len(carls)
 
     @commands.command()
     async def ass(self, context):
@@ -20,14 +38,14 @@ class Copypasta(commands.Cog):
     @commands.command()
     async def carl(self, context):
         """Shows a random Rare Carl!"""
-        with open(ltb.random_carl(), "rb") as filehandle:
+        with open(self.random_carl(), "rb") as filehandle:
             filehandle = discord.File(filehandle)
         await context.send(file=filehandle)
 
     @commands.command()
     async def carlcount(self, context):
         """Displays how many Rare Carls do we have"""
-        number_of_carls = ltb.carl_count()
+        number_of_carls = self.carl_count()
         await context.send(f'I have {number_of_carls} carls!')
 
     @commands.command()
@@ -57,11 +75,11 @@ class Copypasta(commands.Cog):
     @commands.command()
     async def navyseal(self, context):
         """Only use it if you have over 300 confirmed gorilla warfares"""
-        copypasta = ltb.read_from_file("copypastas/navy_seal.txt")
+        copypasta = self.read_from_file("copypastas/navy_seal.txt")
         await context.send(copypasta)
 
     @commands.command()
     async def rick(self, context):
         """Wubba lubba dub dub"""
-        copypasta = ltb.read_from_file("copypastas/IQ.txt")
+        copypasta = self.read_from_file("copypastas/IQ.txt")
         await context.send(copypasta)
