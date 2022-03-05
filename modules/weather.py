@@ -14,7 +14,8 @@ class Weather(commands.Cog):
     def get_weather(self, latitude, longitude, api_key, units):
         """latitude and longitude must have 2 decimal places (I think)"""
         url = 'https://api.openweathermap.org/data/2.5/onecall?'
-        arguments = f'units={units}&lat={latitude}&lon={longitude}&appid={api_key}'
+        arguments = f'units={units}\
+&lat={latitude}&lon={longitude}&appid={api_key}'
         url = url + arguments
         request = requests.get(url)
         weather = request.json()
@@ -63,7 +64,7 @@ class Weather(commands.Cog):
                 self.config['_keys']['openweathermap_api_key'],
                 units)
             stringified_weather = self.stringify_weather(weather['current'],
-                                                        unit_symbol)
+                                                         unit_symbol)
             await context.send(stringified_weather)
         except KeyError:
             await context.send('I’m not configured for this country :(')
