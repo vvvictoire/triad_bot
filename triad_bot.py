@@ -27,7 +27,7 @@ def main():
     bot.add_cog(weather.Weather(bot, configuration))
     bot.add_cog(money.Money(bot))
     bot.add_cog(temperature.Temperature(bot))
-    bot.add_cog(time.Time(bot))
+    bot.add_cog(time.Time(bot, configuration))
     bot.add_cog(copypasta.Copypasta(bot, configuration))
     bot.add_cog(admin.Admin(bot, configuration))
     bot.run(configuration.config['_keys']['token'])
