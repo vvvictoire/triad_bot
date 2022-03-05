@@ -14,6 +14,11 @@
     "admins": [],
     "bot_channel_ids": [],
     "nsfw_channel_ids": [],
+    "countdown": {
+        "year": 0,
+        "month": 0,
+        "day": 0
+    },
     "emojis":{
         "invisible": 0,
         "siesta": 0

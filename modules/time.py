@@ -7,9 +7,10 @@ from discord.ext import commands
 
 class Time(commands.Cog):
     """Time in other timezones, and countdowns"""
-    def __init__(self, bot) -> None:
+    def __init__(self, bot, config) -> None:
         super().__init__()
         self.bot = bot
+        self.config = config.config
 
     def arizona_time(self):
         """Get now Arizona time"""
@@ -21,7 +22,7 @@ class Time(commands.Cog):
         cet = pytz.timezone('Europe/Paris')
         return datetime.datetime.now(cet)
 
-    def time_to_paris(self):
+    def time_to_meetup(self):
         """Return a delta between now and the meetup"""
         cet = pytz.timezone('Europe/Paris')
         arrival = datetime.datetime(2022, 2, 12, tzinfo=cet)
@@ -46,6 +47,6 @@ class Time(commands.Cog):
     @commands.command()
     async def countdown(self, context):
         """How many days until The Meetup?"""
-        delta = self.time_to_paris()
+        delta = self.time_to_meetup()
         await context.send(
             f'Meeting up in {delta["weeks"]} weeks and {delta["days"]} days')
