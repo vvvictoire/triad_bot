@@ -25,7 +25,10 @@ class Time(commands.Cog):
     def time_to_meetup(self):
         """Return a delta between now and the meetup"""
         cet = pytz.timezone('Europe/Paris')
-        arrival = datetime.datetime(2022, 2, 12, tzinfo=cet)
+        arrival = datetime.datetime(self.config['countdown']['year'],
+                                    self.config['countdown']['month'],
+                                    self.config['countdown']['day'],
+                                    tzinfo=cet)
         now = datetime.datetime.now(cet)
         delta = arrival - now
         weeks = delta.days // 7
