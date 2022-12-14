@@ -1,5 +1,7 @@
 """Main script for triadbot"""
 from discord.ext import commands
+from os import fork
+from sys import exit
 
 from modules import admin
 from modules import copypasta
@@ -22,7 +24,8 @@ def main():
     @bot.event
     async def on_ready():
         """Fires after being connected(?)"""
-        print(f'Logged in as {bot.user}')
+        # print(f'Logged in as {bot.user}')
+        pass
 
     bot.add_cog(weather.Weather(bot, configuration))
     bot.add_cog(money.Money(bot))
@@ -34,4 +37,9 @@ def main():
 
 
 if __name__ == '__main__':
+    pid = fork()
+    if pid > 0:
+        exit()
+    if pid < 0:
+        print("Forking failed")
     main()
